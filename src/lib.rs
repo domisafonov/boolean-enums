@@ -2,6 +2,123 @@
 #![warn(bare_trait_objects)]
 #![warn(clippy)]
 
+//! Generate your Yes/No enum with gen_boolean_enum!:
+//! ```
+//! # #![cfg_attr(feature = "serde", feature(plugin))]
+//! # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
+//! #
+//! # #[cfg(feature = "serde")]
+//! # #[macro_use]
+//! # extern crate serde_derive;
+//! #
+//! # #[macro_use] extern crate boolean_enums;
+//! #
+//! gen_boolean_enum!(MyEnum);
+//! #
+//! # fn main() {}
+//! ```
+//!
+//! It's From<bool> and Into<bool> and Not:
+//! ```
+//! # #![cfg_attr(feature = "serde", feature(plugin))]
+//! # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
+//! #
+//! # #[cfg(feature = "serde")]
+//! # #[macro_use]
+//! # extern crate serde_derive;
+//! #
+//! # #[macro_use] extern crate boolean_enums;
+//! #
+//! # gen_boolean_enum!(MyEnum);
+//! #
+//! # fn main() {
+//! let flag = MyEnum::Yes;
+//! let oflag = true.into();
+//! assert_eq!(flag, oflag);
+//!
+//! if (!flag).into() {
+//!     unreachable!()
+//! }
+//! # }
+//! ```
+//!
+//! To generate a public enum, you need to append **pub** to
+//! the macro arguments:
+//! ```
+//! # #![cfg_attr(feature = "serde", feature(plugin))]
+//! # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
+//! #
+//! # #[cfg(feature = "serde")]
+//! # #[macro_use]
+//! # extern crate serde_derive;
+//! #
+//! # #[macro_use] extern crate boolean_enums;
+//! #
+//! gen_boolean_enum!(pub MyEnum);
+//! #
+//! # fn main() {}
+//! ```
+//!
+//! You can serialize and deserialize it with serde like a normal bool
+//! (enabled by the "serde" feature).  For that, first add serde_derive
+//! and interpolate_idents to your Cargo.toml dependencies.  Then specify
+//! **serde** before the enum name in gen_boolean_enum!:
+//! ```rust,ignore
+//! // required by the macro implementation
+//! #![feature(plugin)]
+//! #![plugin(interpolate_idents)]
+//! #[macro_use] extern crate serde_derive;
+//!
+//! extern crate toml; // as an example serde format
+//!
+//! gen_boolean_enum!(serde MyEnum);
+//! // or gen_boolean_enum!(pub serde MyEnum);
+//!
+//! #[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
+//! struct SomeStruct {
+//!     flag: MyEnum
+//! }
+//!
+//! // …
+//!
+//! let first = SomeStruct {
+//!     flag: MyEnum::Yes
+//! };
+//! let string = toml::ser::to_string(&first).unwrap();
+//! let second: SomeStruct = toml::de::from_str(&string).unwrap();
+//!
+//! assert_eq!(first, second);
+//! ```
+
+/// Generates enum with Yes and No variants.
+///
+/// # Examples
+///
+/// ```
+/// # #![cfg_attr(feature = "serde", feature(plugin))]
+/// # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
+/// #
+/// # #[cfg(feature = "serde")]
+/// # #[macro_use]
+/// # extern crate serde_derive;
+/// #
+/// # #[macro_use] extern crate boolean_enums;
+/// #
+/// gen_boolean_enum!(DoX);
+///
+/// // …
+///
+/// # fn main() {
+/// let flag = DoX::Yes;
+/// let mut other_flag = DoX::No;
+///
+/// if flag.into() {
+///     other_flag = true.into();
+/// }
+///
+/// assert_eq!(other_flag, DoX::Yes);
+/// # }
+/// ```
 #[macro_export]
 macro_rules! gen_boolean_enum {
     ($name:ident) => (
@@ -31,14 +148,16 @@ macro_rules! gen_boolean_enum {
     )
 }
 
+/// Implementation detail
 #[macro_export]
 macro_rules! _gen_boolean_enum_common {
     ($name:ident) => (
         impl From<bool> for $name {
-            fn from(x: bool) -> $name {
-                match x {
-                    true => $name::Yes,
-                    false => $name::No
+            fn from(x: bool) -> Self {
+                if x {
+                    $name::Yes
+                } else {
+                    $name::No
                 }
             }
         }
@@ -53,13 +172,25 @@ macro_rules! _gen_boolean_enum_common {
         }
 
         impl Default for $name {
-            fn default() -> $name {
-                bool::default().into()
+            fn default() -> Self {
+                $name::No
+            }
+        }
+
+        impl ::std::ops::Not for $name {
+            type Output = Self;
+            fn not(self) -> Self::Output {
+                if self.into() {
+                    $name::No
+                } else {
+                    $name::Yes
+                }
             }
         }
     )
 }
 
+/// Implementation detail
 #[macro_export]
 macro_rules! _gen_boolean_enum_gen_enum {
     ($name:ident) => (
@@ -78,7 +209,8 @@ macro_rules! _gen_boolean_enum_gen_enum {
     );
 }
 
-#[cfg(not(feature = "serde_derive"))]
+/// Implementation detail
+#[cfg(not(feature = "serde"))]
 #[macro_export]
 macro_rules! _gen_boolean_enum_serde {
     ( $( $t:tt )* ) => (
@@ -86,7 +218,8 @@ macro_rules! _gen_boolean_enum_serde {
     )
 }
 
-#[cfg(feature = "serde_derive")]
+/// Implementation detail
+#[cfg(feature = "serde")]
 #[macro_export]
 macro_rules! _gen_boolean_enum_serde {
     ($name:ident) => (

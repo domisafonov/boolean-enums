@@ -1,7 +1,12 @@
 [package]
-name = "boolean_enums"
+name = "boolean-enums"
 version = "0.1.0"
 authors = ["Dmitry Safonov <dimanss47@dimanss47.net>"]
+description = "Generate enums with Yes and No variants.  Supports serde."
+repository = "https://github.com/dnmsafonov/boolean-enums"
+readme = "README.md"
+keywords = ["bool", "boolean", "enum", "no", "yes"]
+license = "LGPL-3.0-only"
 
 [features]
 serde = ["interpolate_idents", "serde_derive"]
