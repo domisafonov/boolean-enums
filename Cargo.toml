@@ -1,0 +1,11 @@
+[package]
+name = "boolean_enums"
+version = "0.1.0"
+authors = ["Dmitry Safonov <dimanss47@dimanss47.net>"]
+
+[features]
+serde = ["interpolate_idents", "serde_derive"]
+
+[dependencies]
+interpolate_idents = { version = "^0.2.5", optional = true }
+serde_derive = { version = "^1.0.15", optional = true }
