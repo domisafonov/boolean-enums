@@ -1,6 +1,8 @@
-[![Build Status](https://travis-ci.org/dmnsafonov/boolean-enums.svg?branch=master)](https://travis-ci.org/dmnsafonov/boolean-enums)
-
 # boolean-enums
+
+[![Build Status](https://travis-ci.org/dmnsafonov/boolean-enums.svg?branch=master)](https://travis-ci.org/dmnsafonov/boolean-enums)
+[![Crates.io](https://img.shields.io/crates/v/boolean-enums.svg)](https://crates.io/crates/boolean-enums)
+[![Documentation](https://docs.rs/boolean-enums/badge.svg)](https://docs.rs/boolean-enums)
 
 Convenient macro to generate enums with Yes and No variants.
 
