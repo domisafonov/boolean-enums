@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/dmnsafonov/boolean-enums.svg?branch=master)](https://travis-ci.org/dmnsafonov/boolean-enums)
+
 # boolean-enums
 
 Convenient macro to generate enums with Yes and No variants.
