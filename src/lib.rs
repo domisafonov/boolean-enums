@@ -89,6 +89,47 @@
 //!
 //! assert_eq!(first, second);
 //! ```
+//! # Examples
+//! ```
+//! #[macro_use] extern crate boolean_enums;
+//!
+//! gen_boolean_enum!(First);
+//! gen_boolean_enum!(Second);
+//! gen_boolean_enum!(Third);
+//!
+//! fn do_smth(flag1: First, flag2: Second, flag3: Third) {
+//!     // …
+//! }
+//!
+//! fn main() {
+//!     let first = First::Yes;
+//!     let second = Second::No;
+//!     let third = Third::Yes;
+//!
+//!     do_smth(first, second, third);
+//! }
+//! ```
+//! That compiles perfectly, but
+//! ```rust,compile_fail
+//! # #[macro_use] extern crate boolean_enums;
+//! #
+//! # gen_boolean_enum!(First);
+//! # gen_boolean_enum!(Second);
+//! # gen_boolean_enum!(Third);
+//! #
+//! # fn do_smth(flag1: First, flag2: Second, flag3: Third) {
+//! #     // …
+//! # }
+//! #
+//! # fn main() {
+//! #     let first = First::Yes;
+//! #     let second = Second::No;
+//! #     let third = Third::Yes;
+//! #
+//! do_smth(first, third, second);
+//! # }
+//! ```
+//! fails to compile.
 
 /// Generates enum with Yes and No variants.
 ///

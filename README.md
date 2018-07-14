@@ -6,9 +6,9 @@ Useful in cases of multiple bool arguments:
 ```rust
 #[macro_use] extern crate boolean_enums;
 
-generate_boolean_enum!(First);
-generate_boolean_enum!(Second);
-generate_boolean_enum!(Third);
+gen_boolean_enum!(First);
+gen_boolean_enum!(Second);
+gen_boolean_enum!(Third);
 
 fn do_smth(flag1: First, flag2: Second, flag3: Third) {
     // …
