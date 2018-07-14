@@ -8,9 +8,8 @@ readme = "README.md"
 keywords = ["bool", "boolean", "enum", "no", "yes"]
 license = "LGPL-3.0-only"
 
-[features]
-serde = ["interpolate_idents", "serde_derive"]
-
 [dependencies]
-interpolate_idents = { version = "^0.2.5", optional = true }
-serde_derive = { version = "^1.0.15", optional = true }
+serde = { version = "^1.0.15", optional = true, features = ["derive"] }
+
+[dev-dependencies]
+toml = "^0.4.6"

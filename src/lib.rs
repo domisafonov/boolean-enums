@@ -4,13 +4,6 @@
 
 //! Generate your Yes/No enum with gen_boolean_enum!:
 //! ```
-//! # #![cfg_attr(feature = "serde", feature(plugin))]
-//! # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
-//! #
-//! # #[cfg(feature = "serde")]
-//! # #[macro_use]
-//! # extern crate serde_derive;
-//! #
 //! # #[macro_use] extern crate boolean_enums;
 //! #
 //! gen_boolean_enum!(MyEnum);
@@ -20,13 +13,6 @@
 //!
 //! It's From<bool> and Into<bool> and Not:
 //! ```
-//! # #![cfg_attr(feature = "serde", feature(plugin))]
-//! # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
-//! #
-//! # #[cfg(feature = "serde")]
-//! # #[macro_use]
-//! # extern crate serde_derive;
-//! #
 //! # #[macro_use] extern crate boolean_enums;
 //! #
 //! # gen_boolean_enum!(MyEnum);
@@ -45,13 +31,6 @@
 //! To generate a public enum, you need to append **pub** to
 //! the macro arguments:
 //! ```
-//! # #![cfg_attr(feature = "serde", feature(plugin))]
-//! # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
-//! #
-//! # #[cfg(feature = "serde")]
-//! # #[macro_use]
-//! # extern crate serde_derive;
-//! #
 //! # #[macro_use] extern crate boolean_enums;
 //! #
 //! gen_boolean_enum!(pub MyEnum);
@@ -60,15 +39,13 @@
 //! ```
 //!
 //! You can serialize and deserialize it with serde like a normal bool
-//! (enabled by the "serde" feature).  For that, first add serde_derive
-//! and interpolate_idents to your Cargo.toml dependencies.  Then specify
-//! **serde** before the enum name in gen_boolean_enum!:
-//! ```rust,ignore
-//! // required by the macro implementation
-//! #![feature(plugin)]
-//! #![plugin(interpolate_idents)]
-//! #[macro_use] extern crate serde_derive;
+//! (enabled by the "serde" feature).  For that, specify **serde**
+//! before the enum name in gen_boolean_enum!:
+//! ```rust
+//! #[macro_use] extern crate boolean_enums;
 //!
+//! # #[cfg(feature = "serde")]
+//! # {
 //! extern crate toml; // as an example serde format
 //!
 //! gen_boolean_enum!(serde MyEnum);
@@ -88,6 +65,7 @@
 //! let second: SomeStruct = toml::de::from_str(&string).unwrap();
 //!
 //! assert_eq!(first, second);
+//! # }
 //! ```
 //! # Examples
 //! ```
@@ -131,18 +109,18 @@
 //! ```
 //! fails to compile.
 
+#[cfg(feature = "serde")]
+extern crate serde;
+
+#[cfg(feature = "serde")]
+#[doc(hidden)]
+pub use serde::*;
+
 /// Generates enum with Yes and No variants.
 ///
 /// # Examples
 ///
 /// ```
-/// # #![cfg_attr(feature = "serde", feature(plugin))]
-/// # #![cfg_attr(feature = "serde", plugin(interpolate_idents))]
-/// #
-/// # #[cfg(feature = "serde")]
-/// # #[macro_use]
-/// # extern crate serde_derive;
-/// #
 /// # #[macro_use] extern crate boolean_enums;
 /// #
 /// gen_boolean_enum!(DoX);
@@ -189,7 +167,7 @@ macro_rules! gen_boolean_enum {
     )
 }
 
-/// Implementation detail
+#[doc(hidden)]
 #[macro_export]
 macro_rules! _gen_boolean_enum_common {
     ($name:ident) => (
@@ -231,7 +209,7 @@ macro_rules! _gen_boolean_enum_common {
     )
 }
 
-/// Implementation detail
+#[doc(hidden)]
 #[macro_export]
 macro_rules! _gen_boolean_enum_gen_enum {
     ($name:ident) => (
@@ -250,8 +228,8 @@ macro_rules! _gen_boolean_enum_gen_enum {
     );
 }
 
-/// Implementation detail
 #[cfg(not(feature = "serde"))]
+#[doc(hidden)]
 #[macro_export]
 macro_rules! _gen_boolean_enum_serde {
     ( $( $t:tt )* ) => (
@@ -259,52 +237,49 @@ macro_rules! _gen_boolean_enum_serde {
     )
 }
 
-/// Implementation detail
 #[cfg(feature = "serde")]
+#[doc(hidden)]
 #[macro_export]
 macro_rules! _gen_boolean_enum_serde {
     ($name:ident) => (
-        impl ::serde::Serialize for $name {
+        impl $crate::Serialize for $name {
             fn serialize<S>(
                 &self,
                 serializer: S
             ) -> ::std::result::Result<S::Ok, S::Error>
-            where S: ::serde::Serializer {
+            where S: $crate::Serializer {
                 serializer.serialize_bool((*self).into())
             }
         }
 
-        interpolate_idents! {
-            impl<'de> ::serde::Deserialize<'de> for $name {
-                fn deserialize<D>(
-                    deserializer: D
-                ) -> ::std::result::Result<$name, D::Error>
-                where D: ::serde::Deserializer<'de> {
-                    deserializer.deserialize_bool(
-                        [ $name GenBooleanEnumSerde ]
-                    )
-                }
-            }
+        impl<'de> $crate::Deserialize<'de> for $name {
+            fn deserialize<D>(
+                deserializer: D
+            ) -> ::std::result::Result<$name, D::Error>
+            where D: $crate::Deserializer<'de> {
+                struct BooleanEnumVisitor;
 
-            struct [ $name GenBooleanEnumSerde ];
-            impl<'de> ::serde::de::Visitor<'de>
-                    for [ $name GenBooleanEnumSerde ] {
-                type Value = $name;
+                impl<'de> $crate::de::Visitor<'de>
+                        for BooleanEnumVisitor {
+                    type Value = $name;
 
-                fn expecting(
-                    &self,
-                    formatter: &mut ::std::fmt::Formatter
-                ) -> ::std::fmt::Result {
-                    formatter.write_str("a boolean value")
+                    fn expecting(
+                        &self,
+                        formatter: &mut ::std::fmt::Formatter
+                    ) -> ::std::fmt::Result {
+                        formatter.write_str("a boolean value")
+                    }
+
+                    fn visit_bool<E>(
+                        self,
+                        value: bool
+                    ) -> ::std::result::Result<Self::Value, E>
+                    where E: $crate::de::Error {
+                        Ok($name::from(value))
+                    }
                 }
 
-                fn visit_bool<E>(
-                    self,
-                    value: bool
-                ) -> ::std::result::Result<Self::Value, E>
-                where E: ::serde::de::Error {
-                    Ok($name::from(value))
-                }
+                deserializer.deserialize_bool(BooleanEnumVisitor)
             }
         }
     )
