@@ -13,3 +13,6 @@ serde = { version = "^1.0.15", optional = true, features = ["derive"] }
 
 [dev-dependencies]
 toml = "^0.4.6"
+
+[badges]
+travis-ci = { repository = "dmnsafonov/boolean-enums" }
