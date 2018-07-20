@@ -1,0 +1,9 @@
+[package]
+name = "nostdtest-serde"
+version = "0.1.0"
+authors = ["Dmitry Safonov <dimanss47@dimanss47.net>"]
+
+[dependencies.boolean-enums]
+path = "../../"
+default-features = false
+features = ["serde"]

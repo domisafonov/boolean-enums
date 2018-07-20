@@ -11,3 +11,4 @@ matrix:
 script:
     - cargo build --all-features
     - cargo test --all-features
+    - make -f test/Makefile

@@ -8,8 +8,17 @@ readme = "README.md"
 keywords = ["bool", "boolean", "enum", "no", "yes"]
 license = "LGPL-3.0-only"
 
-[dependencies]
-serde = { version = "^1.0.15", optional = true, features = ["derive"] }
+exclude = ["test/"]
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies.serde]
+version = "^1.0.15"
+default-features = false
+features = ["derive"]
+optional = true
 
 [dev-dependencies]
 toml = "^0.4.6"

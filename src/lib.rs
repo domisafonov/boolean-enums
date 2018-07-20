@@ -2,6 +2,8 @@
 #![warn(bare_trait_objects)]
 #![warn(clippy)]
 
+#![cfg_attr(not(feature = "std"), no_std)]
+
 //! Generate your Yes/No enum with gen_boolean_enum!:
 //! ```
 //! # #[macro_use] extern crate boolean_enums;
@@ -112,6 +114,16 @@
 #[cfg(feature = "serde")]
 extern crate serde;
 
+#[cfg(feature = "std")]
+pub mod lstd {
+    pub use std::*;
+}
+
+#[cfg(not(feature = "std"))]
+pub mod lstd {
+    pub use core::*;
+}
+
 #[cfg(feature = "serde")]
 #[doc(hidden)]
 pub use serde::*;
@@ -196,7 +208,7 @@ macro_rules! _gen_boolean_enum_common {
             }
         }
 
-        impl ::std::ops::Not for $name {
+        impl $crate::lstd::ops::Not for $name {
             type Output = Self;
             fn not(self) -> Self::Output {
                 if self.into() {
@@ -246,7 +258,7 @@ macro_rules! _gen_boolean_enum_serde {
             fn serialize<S>(
                 &self,
                 serializer: S
-            ) -> ::std::result::Result<S::Ok, S::Error>
+            ) -> $crate::lstd::result::Result<S::Ok, S::Error>
             where S: $crate::Serializer {
                 serializer.serialize_bool((*self).into())
             }
@@ -255,7 +267,7 @@ macro_rules! _gen_boolean_enum_serde {
         impl<'de> $crate::Deserialize<'de> for $name {
             fn deserialize<D>(
                 deserializer: D
-            ) -> ::std::result::Result<$name, D::Error>
+            ) -> $crate::lstd::result::Result<$name, D::Error>
             where D: $crate::Deserializer<'de> {
                 struct BooleanEnumVisitor;
 
@@ -265,15 +277,15 @@ macro_rules! _gen_boolean_enum_serde {
 
                     fn expecting(
                         &self,
-                        formatter: &mut ::std::fmt::Formatter
-                    ) -> ::std::fmt::Result {
+                        formatter: &mut $crate::lstd::fmt::Formatter
+                    ) -> $crate::lstd::fmt::Result {
                         formatter.write_str("a boolean value")
                     }
 
                     fn visit_bool<E>(
                         self,
                         value: bool
-                    ) -> ::std::result::Result<Self::Value, E>
+                    ) -> $crate::lstd::result::Result<Self::Value, E>
                     where E: $crate::de::Error {
                         Ok($name::from(value))
                     }
