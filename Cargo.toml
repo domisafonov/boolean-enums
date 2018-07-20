@@ -1,8 +1,8 @@
 [package]
 name = "boolean-enums"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Dmitry Safonov <dimanss47@dimanss47.net>"]
-description = "Generate enums with Yes and No variants.  Supports serde."
+description = "Generate enums with Yes and No variants.  Supports no_std and serde."
 repository = "https://github.com/dmnsafonov/boolean-enums"
 readme = "README.md"
 keywords = ["bool", "boolean", "enum", "no", "yes"]

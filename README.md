@@ -5,6 +5,7 @@
 [![Documentation](https://docs.rs/boolean-enums/badge.svg)](https://docs.rs/boolean-enums)
 
 Convenient macro to generate enums with Yes and No variants.
+Supports `no_std`.
 
 Useful in cases of multiple bool arguments:
 ```rust

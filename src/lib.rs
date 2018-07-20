@@ -69,6 +69,15 @@
 //! assert_eq!(first, second);
 //! # }
 //! ```
+//!
+//! You can use boolean-enums in no_std crates by disabling the default "std"
+//! feature:
+//! ```toml,ignore
+//! [dependencies.boolean-enums]
+//! version = "^0.3.0"
+//! default-features = false
+//! ```
+//!
 //! # Examples
 //! ```
 //! #[macro_use] extern crate boolean_enums;
