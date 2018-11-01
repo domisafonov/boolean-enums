@@ -1,6 +1,5 @@
-#![allow(unknown_lints)]
 #![warn(bare_trait_objects)]
-#![warn(clippy)]
+#![cfg_attr(feature = "nightly", warn(clippy::pedantic))]
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
