@@ -171,7 +171,7 @@ macro_rules! gen_boolean_enum {
     );
 
     (serde $name:ident) => (
-        _gen_boolean_enum_gen_enum!(pub $name);
+        _gen_boolean_enum_gen_enum!($name);
         _gen_boolean_enum_common!($name);
         _gen_boolean_enum_serde!($name);
     );
