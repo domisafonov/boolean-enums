@@ -6,6 +6,7 @@ description = "Generate enums with Yes and No variants.  Supports no_std and ser
 repository = "https://github.com/dmnsafonov/boolean-enums"
 readme = "README.md"
 keywords = ["bool", "boolean", "enum", "no", "yes"]
+categories = ["no-std", "rust-patterns"]
 license = "LGPL-3.0-only"
 
 exclude = ["test/"]
