@@ -1,13 +1,13 @@
 [package]
 name = "boolean-enums"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["Dmitry Safonov <dimanss47@dimanss47.net>"]
 description = "Generate enums with Yes and No variants.  Supports no_std and serde."
 repository = "https://github.com/dmnsafonov/boolean-enums"
 readme = "README.md"
 keywords = ["bool", "boolean", "enum", "no", "yes"]
 categories = ["no-std", "rust-patterns"]
-license = "LGPL-3.0-only"
+license = "MIT OR Apache-2.0"
 
 exclude = ["test/"]
 
