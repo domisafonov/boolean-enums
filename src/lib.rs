@@ -5,11 +5,11 @@
 // except according to those terms.
 
 #![warn(bare_trait_objects)]
-#![cfg_attr(feature = "nightly", warn(clippy::pedantic))]
+#![warn(clippy::pedantic)]
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
-//! Generate your Yes/No enum with gen_boolean_enum!:
+//! Generate your Yes/No enum with `gen_boolean_enum!`:
 //! ```
 //! # #[macro_use] extern crate boolean_enums;
 //! #
@@ -35,7 +35,7 @@
 //! # }
 //! ```
 //!
-//! To generate a public enum, you need to append **pub** to
+//! To generate a public enum, you need to append `pub` to
 //! the macro arguments:
 //! ```
 //! # #[macro_use] extern crate boolean_enums;
@@ -46,8 +46,8 @@
 //! ```
 //!
 //! You can serialize and deserialize it with serde like a normal bool
-//! (enabled by the "serde" feature).  For that, specify **serde**
-//! before the enum name in gen_boolean_enum!:
+//! (enabled by the `serde` feature).  For that, specify `serde`
+//! before the enum name in `gen_boolean_enum!`:
 //! ```rust
 //! #[macro_use] extern crate boolean_enums;
 //!
@@ -75,7 +75,7 @@
 //! # }
 //! ```
 //!
-//! You can use boolean-enums in no_std crates by disabling the default "std"
+//! You can use boolean-enums in `no_std` crates by disabling the default `std`
 //! feature:
 //! ```toml,ignore
 //! [dependencies.boolean-enums]
