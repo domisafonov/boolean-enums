@@ -14,8 +14,6 @@
 //! # #[macro_use] extern crate boolean_enums;
 //! #
 //! gen_boolean_enum!(MyEnum);
-//! #
-//! # fn main() {}
 //! ```
 //!
 //! It's From<bool> and Into<bool> and Not:
@@ -24,7 +22,6 @@
 //! #
 //! # gen_boolean_enum!(MyEnum);
 //! #
-//! # fn main() {
 //! let flag = MyEnum::Yes;
 //! let oflag = true.into();
 //! assert_eq!(flag, oflag);
@@ -32,7 +29,6 @@
 //! if (!flag).into() {
 //!     unreachable!()
 //! }
-//! # }
 //! ```
 //!
 //! To generate a public enum, you need to append `pub` to
@@ -41,8 +37,6 @@
 //! # #[macro_use] extern crate boolean_enums;
 //! #
 //! gen_boolean_enum!(pub MyEnum);
-//! #
-//! # fn main() {}
 //! ```
 //!
 //! You can serialize and deserialize it with serde like a normal bool
@@ -95,13 +89,11 @@
 //!     // …
 //! }
 //!
-//! fn main() {
-//!     let first = First::Yes;
-//!     let second = Second::No;
-//!     let third = Third::Yes;
+//! let first = First::Yes;
+//! let second = Second::No;
+//! let third = Third::Yes;
 //!
-//!     do_smth(first, second, third);
-//! }
+//! do_smth(first, second, third);
 //! ```
 //! That compiles perfectly, but
 //! ```rust,compile_fail
@@ -115,13 +107,11 @@
 //! #     // …
 //! # }
 //! #
-//! # fn main() {
-//! #     let first = First::Yes;
-//! #     let second = Second::No;
-//! #     let third = Third::Yes;
+//! # let first = First::Yes;
+//! # let second = Second::No;
+//! # let third = Third::Yes;
 //! #
 //! do_smth(first, third, second);
-//! # }
 //! ```
 //! fails to compile.
 
@@ -129,11 +119,13 @@
 extern crate serde;
 
 #[cfg(feature = "std")]
+#[doc(hidden)]
 pub mod lstd {
     pub use std::*;
 }
 
 #[cfg(not(feature = "std"))]
+#[doc(hidden)]
 pub mod lstd {
     pub use core::*;
 }
