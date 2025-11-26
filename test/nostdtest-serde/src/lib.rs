@@ -6,7 +6,7 @@
 
 #![no_std]
 
-#[macro_use] extern crate boolean_enums;
+use boolean_enums::gen_boolean_enum;
 
 gen_boolean_enum!(serde SerdeTestEnum);
 gen_boolean_enum!(pub serde PubSerdeTestEnum);

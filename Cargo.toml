@@ -1,10 +1,10 @@
 [package]
 name = "boolean-enums"
-version = "0.3.4"
-edition = "2018"
-authors = ["Dmitry Safonov <dimanss47@dimanss47.net>"]
+version = "0.4.0"
+edition = "2024"
+authors = ["Dmitrii Safonov <domi@domisafonov.net>"]
 description = "Generate enums with Yes and No variants.  Supports no_std and serde."
-repository = "https://github.com/dmnsafonov/boolean-enums"
+repository = "https://github.com/domisafonov/boolean-enums"
 readme = "README.md"
 keywords = ["bool", "boolean", "enum", "no", "yes"]
 categories = ["no-std", "rust-patterns"]
@@ -17,13 +17,9 @@ default = ["std"]
 std = []
 
 [dependencies.serde]
-version = "^1.0.15"
+version = "^1.0.228"
 default-features = false
-features = ["derive"]
 optional = true
 
 [dev-dependencies]
-toml = "^0.5.0"
-
-[badges]
-travis-ci = { repository = "dmnsafonov/boolean-enums" }
+toml = "0.9.8"

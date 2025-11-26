@@ -1,8 +1,8 @@
 [package]
 name = "nostdtest"
 version = "0.1.0"
-edition = "2018"
-authors = ["Dmitry Safonov <dimanss47@dimanss47.net>"]
+edition = "2024"
+authors = ["Dmitrii Safonov <domi@domisafonov.net>"]
 license = "MIT OR Apache-2.0"
 
 [dependencies.boolean-enums]

@@ -11,14 +11,14 @@
 
 //! Generate your Yes/No enum with `gen_boolean_enum!`:
 //! ```
-//! # #[macro_use] extern crate boolean_enums;
+//! # use boolean_enums::gen_boolean_enum;
 //! #
 //! gen_boolean_enum!(MyEnum);
 //! ```
 //!
 //! It's From<bool> and Into<bool> and Not:
 //! ```
-//! # #[macro_use] extern crate boolean_enums;
+//! # use boolean_enums::gen_boolean_enum;
 //! #
 //! # gen_boolean_enum!(MyEnum);
 //! #
@@ -34,7 +34,7 @@
 //! To generate a public enum, you need to append `pub` to
 //! the macro arguments:
 //! ```
-//! # #[macro_use] extern crate boolean_enums;
+//! # use boolean_enums::gen_boolean_enum;
 //! #
 //! gen_boolean_enum!(pub MyEnum);
 //! ```
@@ -43,8 +43,8 @@
 //! (enabled by the `serde` feature).  For that, specify `serde`
 //! before the enum name in `gen_boolean_enum!`:
 //! ```rust
-//! #[macro_use] extern crate boolean_enums;
-//!
+//! # use boolean_enums::gen_boolean_enum;
+//! #
 //! # #[cfg(feature = "serde")]
 //! # {
 //! extern crate toml; // as an example serde format
@@ -73,14 +73,14 @@
 //! feature:
 //! ```toml,ignore
 //! [dependencies.boolean-enums]
-//! version = "^0.3.0"
+//! version = "^0.4.0"
 //! default-features = false
 //! ```
 //!
 //! # Examples
 //! ```
-//! #[macro_use] extern crate boolean_enums;
-//!
+//! # use boolean_enums::gen_boolean_enum;
+//! #
 //! gen_boolean_enum!(First);
 //! gen_boolean_enum!(Second);
 //! gen_boolean_enum!(Third);
@@ -97,7 +97,7 @@
 //! ```
 //! That compiles perfectly, but
 //! ```rust,compile_fail
-//! # #[macro_use] extern crate boolean_enums;
+//! # use boolean_enums::gen_boolean_enum;
 //! #
 //! # gen_boolean_enum!(First);
 //! # gen_boolean_enum!(Second);
@@ -139,7 +139,7 @@ pub use serde::*;
 /// # Examples
 ///
 /// ```
-/// # #[macro_use] extern crate boolean_enums;
+/// # use boolean_enums::gen_boolean_enum;
 /// #
 /// gen_boolean_enum!(DoX);
 ///
@@ -159,29 +159,29 @@ pub use serde::*;
 #[macro_export]
 macro_rules! gen_boolean_enum {
     ($name:ident) => (
-        _gen_boolean_enum_gen_enum!($name);
-        _gen_boolean_enum_common!($name);
+        $crate::_gen_boolean_enum_gen_enum!($name);
+        $crate::_gen_boolean_enum_common!($name);
     );
 
     (pub $name:ident) => (
-        _gen_boolean_enum_gen_enum!(pub $name);
-        _gen_boolean_enum_common!($name);
+        $crate::_gen_boolean_enum_gen_enum!(pub $name);
+        $crate::_gen_boolean_enum_common!($name);
     );
 
     (serde $name:ident) => (
-        _gen_boolean_enum_gen_enum!($name);
-        _gen_boolean_enum_common!($name);
-        _gen_boolean_enum_serde!($name);
+        $crate::_gen_boolean_enum_gen_enum!($name);
+        $crate::_gen_boolean_enum_common!($name);
+        $crate::_gen_boolean_enum_serde!($name);
     );
 
     (pub serde $name:ident) => (
-        _gen_boolean_enum_gen_enum!(pub $name);
-        _gen_boolean_enum_common!($name);
-        _gen_boolean_enum_serde!($name);
+        $crate::_gen_boolean_enum_gen_enum!(pub $name);
+        $crate::_gen_boolean_enum_common!($name);
+        $crate::_gen_boolean_enum_serde!($name);
     );
 
     (serde pub $name:ident) => (
-        gen_boolean_enum!(pub serde $name);
+        $crate::gen_boolean_enum!(pub serde $name);
     )
 }
 

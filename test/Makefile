@@ -1,5 +1,5 @@
-ifeq ($(TRAVIS),true)
-  BUILD_DIR := $(TRAVIS_BUILD_DIR)
+ifeq ($(CI),true)
+  BUILD_DIR := $(GITHUB_WORKSPACE)
 else
   BUILD_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))../
 endif
@@ -10,12 +10,10 @@ default: $(TARGETS)
 .PHONY: $(TARGETS)
 
 nostdtest:
-	cd $(BUILD_DIR)/test/nostdtest && \
-	cargo build
+	cargo build --manifest-path test/nostdtest/Cargo.toml
 
 nostdtest-serde:
-	cd $(BUILD_DIR)/test/nostdtest-serde && \
-	cargo build
+	cargo build --manifest-path test/nostdtest-serde/Cargo.toml
 
 clean:
 	bash -c "rm -rf $(BUILD_DIR)/test/*/{Cargo.lock,target/}"
