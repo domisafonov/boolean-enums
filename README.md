@@ -1,8 +1,8 @@
 # boolean-enums
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/domisafonov/boolean-enums/Rust)
-![Crates.io Version](https://img.shields.io/crates/v/boolean-enums)
-![docs.rs](https://img.shields.io/docsrs/boolean-enums)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/domisafonov/boolean-enums/Rust)](https://github.com/domisafonov/boolean-enums/actions/workflows/build.yml)
+[![Crates.io Version](https://img.shields.io/crates/v/boolean-enums)](https://crates.io/crates/boolean-enums)
+[![docs.rs](https://img.shields.io/docsrs/boolean-enums)](https://docs.rs/boolean-enums/)
 
 Convenient macro to generate enums with Yes and No variants.
 Supports `no_std`.
