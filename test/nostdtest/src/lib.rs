@@ -4,7 +4,10 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
+//! A build test
+
 #![no_std]
+#![deny(missing_docs)]
 
 use boolean_enums::gen_boolean_enum;
 

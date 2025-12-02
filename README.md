@@ -1,6 +1,6 @@
 # boolean-enums
 
-[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/domisafonov/boolean-enums/Rust)](https://github.com/domisafonov/boolean-enums/actions/workflows/build.yml)
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/domisafonov/boolean-enums/build.yml)](https://github.com/domisafonov/boolean-enums/actions/workflows/build.yml)
 [![Crates.io Version](https://img.shields.io/crates/v/boolean-enums)](https://crates.io/crates/boolean-enums)
 [![docs.rs](https://img.shields.io/docsrs/boolean-enums)](https://docs.rs/boolean-enums/)
 

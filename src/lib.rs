@@ -231,6 +231,7 @@ macro_rules! _gen_boolean_enum_common {
 #[macro_export]
 macro_rules! _gen_boolean_enum_gen_enum {
     ($name:ident) => (
+        #[allow(missing_docs)]
         #[derive(Clone, Copy, Debug, Eq, PartialEq)]
         enum $name {
             Yes,
@@ -238,6 +239,7 @@ macro_rules! _gen_boolean_enum_gen_enum {
         }
     );
     (pub $name:ident) => (
+        #[allow(missing_docs)]
         #[derive(Clone, Copy, Debug, Eq, PartialEq)]
         pub enum $name {
             Yes,

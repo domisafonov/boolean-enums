@@ -1,6 +1,6 @@
 [package]
 name = "boolean-enums"
-version = "0.4.0"
+version = "0.4.1"
 edition = "2024"
 authors = ["Dmitrii Safonov <domi@domisafonov.net>"]
 description = "Generate enums with Yes and No variants.  Supports no_std and serde."
